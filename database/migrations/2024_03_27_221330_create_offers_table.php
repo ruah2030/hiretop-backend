@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
-            $table->string('way');
+            $table->string('mode');
             $table->string('title');
             $table->string('description');
-            $table->unsignedBigInteger('offer_type_id');
-            $table->foreign('offer_type_id')->on('users')->references('id')
-            ->cascadeOnDelete()
-                ->cascadeOnUpdate();
+            $table->string('type');
+            $table->string('taxonomy');
+            // $table->unsignedBigInteger('offer_type_id');
+            // $table->foreign('offer_type_id')->on('users')->references('id')
+            // ->cascadeOnDelete()
+                // ->cascadeOnUpdate();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\AbilityController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\UserController;
+use App\Models\Ability;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +32,23 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/users/partial/update', 'userPartialUpdate');
     });
     Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::controller(ExperienceController::class)->group(function () {
+        Route::get('/experiences', 'index');
+        Route::get('/experiences/paginate', 'paginateIndex');
+        Route::post('/experiences', 'store');
+        Route::post('/experiences/{id}', 'update');
+        Route::delete('/experiences/{id}', 'destroy');
+    });
+
+    Route::controller(AbilityController::class)->group(function () {
+        Route::get('/abilities', 'index');
+        Route::get('/abilities/paginate', 'paginateIndex');
+        Route::post('/abilities', 'store');
+        Route::post('/abilities/{id}', 'update');
+        Route::delete('/abilities/{id}', 'destroy');
+    });
+
 });
 Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login');

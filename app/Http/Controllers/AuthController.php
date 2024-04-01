@@ -30,6 +30,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
+            'occupation' => $request->occupation,
             'password' => Hash::make($request->password),
             'is_organisation' => $request->type == "normal" ?false : true
         ];

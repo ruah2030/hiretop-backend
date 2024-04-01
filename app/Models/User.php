@@ -26,6 +26,7 @@ class User extends Authenticatable
         'is_organisation',
         'last_name',
         'first_name',
+        'occupation'
     ];
 
     /**

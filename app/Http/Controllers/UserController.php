@@ -15,6 +15,7 @@ class UserController extends Controller
             'first_name' => request('first_name'),
             'last_name' => request('last_name'),
             'email' => request('email'),
+            'occupation' => request('occupation'),
         ]);
         return response()->json([
             'status' => 'success',
