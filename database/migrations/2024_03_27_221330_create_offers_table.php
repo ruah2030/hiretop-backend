@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('mode');
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
             $table->string('type');
             $table->string('taxonomy');
             $table->boolean("active")->default(false);
