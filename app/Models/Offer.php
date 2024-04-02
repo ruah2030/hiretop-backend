@@ -21,4 +21,9 @@ class Offer extends Model
      * @var array
      */
     protected $fillable = ['mode', 'title', 'description', 'user_id', 'active', 'type', 'taxonomy', 'deleted_at', 'created_at', 'updated_at'];
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
 }

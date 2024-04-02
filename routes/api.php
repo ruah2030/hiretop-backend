@@ -56,9 +56,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/offers/{id}', 'update');
         Route::delete('/offers/{id}', 'destroy');
     });
-
 });
-Route::get('/offers', [OfferController::class,'index']);
+Route::get('/offers/{id}', [OfferController::class, 'show']);
+Route::get('/offers', [OfferController::class, 'index']);
 Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login');
     Route::post('/register', 'register');

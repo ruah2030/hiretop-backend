@@ -15,10 +15,29 @@ class OfferController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->query('per_page', 5);
+        $offers = Offer::whereActive(true);
+        if( $request->query('type')!=""){
+            $offers = $offers->whereTaxonomy($request->query('type'));
+        }
+        $offers = $offers->paginate($perPage);
         $response = [
             'status' => 'success',
             'message' => 'Offer is created successfully.',
-            'data' => Offer::whereActive(true)->paginate($perPage),
+            'data' => $offers,
+        ];
+
+        return response()->json($response, 201);
+    }
+     /**
+     * Display a listing of the resource.
+     */
+    public function show($id)
+    {
+
+        $response = [
+            'status' => 'success',
+            'message' => 'Offer is created successfully.',
+            'data' => Offer::find($id),
         ];
 
         return response()->json($response, 201);
