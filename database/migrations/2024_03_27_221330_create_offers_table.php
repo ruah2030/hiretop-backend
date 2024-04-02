@@ -18,10 +18,11 @@ return new class extends Migration
             $table->string('description');
             $table->string('type');
             $table->string('taxonomy');
-            // $table->unsignedBigInteger('offer_type_id');
-            // $table->foreign('offer_type_id')->on('users')->references('id')
-            // ->cascadeOnDelete()
-                // ->cascadeOnUpdate();
+            $table->boolean("active")->default(false);
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->on('users')->references('id')
+            ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->softDeletes();
             $table->timestamps();
         });

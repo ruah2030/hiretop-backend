@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ability;
 use Illuminate\Http\Request;
+use App\Models\Offer;
 use Validator;
-class AbilityController extends Controller
+
+class OfferController extends Controller
 {
 
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->query('per_page', 5);
         $response = [
             'status' => 'success',
-            'message' => 'User is created successfully.',
-            'data' => Ability::whereId(auth()->id())->get(),
+            'message' => 'Offer is created successfully.',
+            'data' => Offer::whereActive(true)->paginate($perPage),
         ];
 
         return response()->json($response, 201);
@@ -29,8 +31,8 @@ class AbilityController extends Controller
         $perPage = $request->query('per_page', 5);
         $response = [
             'status' => 'success',
-            'message' => 'User is created successfully.',
-            'data' => Ability::whereUserId(auth()->id())->paginate($perPage),
+            'message' => 'Offer is created successfully.',
+            'data' => Offer::whereUserId(auth()->id())->paginate($perPage),
         ];
 
         return response()->json($response, 201);
@@ -43,7 +45,11 @@ class AbilityController extends Controller
     public function store(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'name' => 'required',
+            'title' => 'required',
+            'taxonomy' => 'required',
+            'mode' => 'required',
+            'type' => 'required',
+            'description' => 'required',
         ]);
         if ($validate->fails()) {
             return response()->json([
@@ -52,12 +58,14 @@ class AbilityController extends Controller
                 'data' => $validate->errors(),
             ], 403);
         }
-    $ability = Ability::create(array_merge($request->all(), ['user_id' => auth()->id()]));
+        $offer = Offer::create(
+            array_merge($request->all(), ['user_id' => auth()->id()])
+        );
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Ability is created successfully.',
-            'data' =>$ability,
+            'message' => 'Offer is created successfully.',
+            'data' => $offer,
         ], 200);
     }
 
@@ -68,7 +76,11 @@ class AbilityController extends Controller
     public function update(Request $request, $id)
     {
         $validate = Validator::make($request->all(), [
-            'name' => 'required',
+            'title' => 'required',
+            'taxonomy' => 'required',
+            'mode' => 'required',
+            'type' => 'required',
+            'description' => 'required',
         ]);
         if ($validate->fails()) {
             return response()->json([
@@ -77,13 +89,18 @@ class AbilityController extends Controller
                 'data' => $validate->errors(),
             ], 403);
         }
-    $ability = Ability::whereId($id)->first();
-    $ability->name = request("name");
-    $ability->save();
+        $offer = Offer::whereId($id)->first();
+        $offer->title = request("title");
+        $offer->taxonomy = request("taxonomy");
+        $offer->mode = request("mode");
+        $offer->type = request("type");
+        $offer->description = request("description");
+        $offer->active = request("active");
+        $offer->save();
         return response()->json([
             'status' => 'success',
-            'message' => 'Ability is updated successfully.',
-            'data' =>$ability,
+            'message' => 'Offer is updated successfully.',
+            'data' => $offer,
         ], 200);
     }
 
@@ -93,11 +110,20 @@ class AbilityController extends Controller
     public function destroy(string $id)
     {
         //
-        Ability::where('id', $id)->delete();
+        Offer::where('id', $id)->delete();
         return response()->json([
             'status' => 'success',
-            'message' => 'Ability is deleted successfully.',
+            'message' => 'Offer is deleted successfully.',
             'data' => null,
         ], 200);
+    }
+
+    public function saveInputFile($request, $file_name)
+    {
+        if ($request->hasFile($file_name)) {
+            $file = $request->file($file_name);
+            $path =  $file->store('uploads', 'public');
+            return  $path;
+        }
     }
 }

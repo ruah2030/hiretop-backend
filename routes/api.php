@@ -5,8 +5,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\UserController;
 use App\Models\Ability;
+use App\Models\Offer;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,8 +50,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/abilities/{id}', 'update');
         Route::delete('/abilities/{id}', 'destroy');
     });
+    Route::controller(OfferController::class)->group(function () {
+        Route::get('/offers/paginate', 'paginateIndex');
+        Route::post('/offers', 'store');
+        Route::post('/offers/{id}', 'update');
+        Route::delete('/offers/{id}', 'destroy');
+    });
 
 });
+Route::get('/offers', [OfferController::class,'index']);
 Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login');
     Route::post('/register', 'register');

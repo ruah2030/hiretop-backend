@@ -16,8 +16,8 @@ class ExperienceController extends Controller
     {
         $response = [
             'status' => 'success',
-            'message' => 'User is created successfully.',
-            'data' => Experience::all(),
+            'message' => 'Experience is created successfully.',
+            'data' => Experience::whereId(auth()->id())->get(),
         ];
 
         return response()->json($response, 201);
@@ -30,8 +30,8 @@ class ExperienceController extends Controller
         $perPage = $request->query('per_page', 5);
         $response = [
             'status' => 'success',
-            'message' => 'User is created successfully.',
-            'data' => Experience::paginate($perPage),
+            'message' => 'Experience is created successfully.',
+            'data' => Experience::whereUserId(auth()->id())->paginate($perPage),
         ];
 
         return response()->json($response, 201);
@@ -55,7 +55,7 @@ class ExperienceController extends Controller
                 'data' => $validate->errors(),
             ], 403);
         }
-        $experience = Experience::create(array_merge($request->all(), ['user_id' => auth()->id()]));
+        $experience = Experience::create(array_merge($request->all(), ['Experience_id' => auth()->id()]));
 
         return response()->json([
             'status' => 'success',
