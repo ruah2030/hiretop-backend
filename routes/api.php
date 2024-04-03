@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
 use App\Models\Ability;
 use App\Models\Offer;
@@ -56,6 +57,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/offers/{id}', 'update');
         Route::delete('/offers/{id}', 'destroy');
     });
+    Route::post('/subscriptions', [SubscriptionController::class, 'store']);
+    Route::get('/subscriptions/paginate', [SubscriptionController::class, "paginateIndex"]);
 });
 Route::get('/offers/{id}', [OfferController::class, 'show']);
 Route::get('/offers', [OfferController::class, 'index']);

@@ -48,8 +48,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function subscriptions()
-{
-    return $this->hasMany(Subscription::class);
-}
+    public function offers()
+    {
+        return $this->belongsToMany(Offer::class, 'subscriptions', 'user_id', 'offer_id');
+    }
 }

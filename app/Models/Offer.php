@@ -22,8 +22,8 @@ class Offer extends Model
      */
     protected $fillable = ['mode', 'title', 'description', 'user_id', 'active', 'type', 'taxonomy', 'deleted_at', 'created_at', 'updated_at'];
 
-    public function subscriptions()
+    public function users()
     {
-        return $this->hasMany(Subscription::class);
+        return $this->belongsToMany(User::class,'subscriptions', 'user_id', 'offer_id');
     }
 }

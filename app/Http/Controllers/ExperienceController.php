@@ -55,7 +55,7 @@ class ExperienceController extends Controller
                 'data' => $validate->errors(),
             ], 403);
         }
-        $experience = Experience::create(array_merge($request->all(), ['Experience_id' => auth()->id()]));
+        $experience = Experience::create(array_merge($request->all(), ['user_id' => auth()->id()]));
 
         return response()->json([
             'status' => 'success',

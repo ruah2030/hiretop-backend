@@ -16,24 +16,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Subscription extends Model
 {
+    const INIT = "init";
     /**
      * @var array
      */
     protected $fillable = ['user_id', 'offer_id', 'step', 'created_at', 'updated_at'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function offer()
-    {
-        return $this->belongsToMany(Offer::class, 'subscriptions')->withTimestamps();
-    }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
-    {
-        return $this->belongsToMany(User::class, 'subscriptions')->withTimestamps();
-    }
 }
